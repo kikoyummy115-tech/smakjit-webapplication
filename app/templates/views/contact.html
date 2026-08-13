@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block title %} <title>Contact</title>{% endblock %}
+{% block content %}
+<div class="p-4">
+  <details
+    class="collapse bg-base-100 border border-base-300"
+    name="my-accordion-det-1"
+    open
+  >
+    <summary class="collapse-title font-semibold">Contact info?</summary>
+    <div class="collapse-content text-sm">089 807 445</div>
+  </details>
+  <details
+    class="collapse bg-base-100 border border-base-300"
+    name="my-accordion-det-1"
+  >
+    <summary class="collapse-title font-semibold">Email</summary>
+    <div class="collapse-content text-sm">sornviraksothearith@gmail.com</div>
+  </details>
+</div>
+
+{% endblock %}

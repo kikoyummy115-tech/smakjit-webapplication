@@ -1,0 +1,108 @@
+{% extends 'base.html' %} {% block title %}
+<title>{{ current_user.username }} - Profile</title>{% endblock %} {% block
+content %}
+
+<div class="flex w-full flex-col gap-4 p-4">
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center gap-4">
+      <div>
+        <h1 class="text-xl font-semibold">Your photo</h1>
+
+        <img
+          src="{% if  current_user.img_url == None%}
+                {{ url_for('static', filename='image/profile.png' ) }}
+              {% else %}
+                {{ current_user.img_url}}
+              {% endif %}"
+          class="h-40 w-40 shrink-0 rounded-full"
+          alt="profile"
+        />
+        <p class="text-sm m-2 rounded-sm inline font-semibold">
+          Role : {{ current_user.role.name[0].upper() +
+          current_user.role.name[1:] }}
+        </p>
+        <legend class="text-xs p-2">
+          Change Photo <label class="label text-xs">Max size 2MB</label>
+        </legend>
+        <div class="flex flex-col gap-4 md:flex-row">
+          <!-- CRITICAL: Added enctype="multipart/form-data" so the browser sends actual files instead of text -->
+          <form
+            action="{{ url_for('main.upload_image') }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="flex md:flex-row gap-2"
+          >
+            <input
+              type="file"
+              class="file-input file-input-sm"
+              name="file"
+              accept="*/*"
+              required
+            />
+            <button type="submit" class="btn btn-outline btn-sm">Upload</button>
+          </form>
+
+          <form action="{{ url_for('main.remove_image')}}" method="POST">
+            <button type="submit" class="btn bg-red-500 text-white btn-sm">
+              Remove
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="w-full">
+      <hr />
+
+      <a href="{{ url_for('main.edit_profile') }}" class="flex p-2 gap-2">
+        <button class="btn btn-sm">
+          Edit<span class="material-symbols-outlined"> edit </span>
+        </button></a
+      >
+
+      <fieldset class="fieldset p-4">
+        <p class="">Username</p>
+        <p class="text-sm border-1 p-2 w-100 rounded-sm">
+          {{ current_user.username }}
+        </p>
+        <p class="">Email</p>
+        <p class="text-sm border-1 p-2 w-100 rounded-sm">
+          {{ current_user.email }}
+        </p>
+        <p class="">Gender</p>
+        <p class="text-sm border-1 p-2 w-100 rounded-sm">
+          {% if current_user.gender %} {{ current_user.gender }} {% else %} Not
+          specified {% endif %}
+        </p>
+        <p class="">Date of Birth</p>
+        <p class="text-sm border-1 p-2 w-100 rounded-sm">
+          {% if current_user.date_of_birth %} {{ current_user.date_of_birth }}
+          {% else %} Not specified {% endif %}
+        </p>
+      </fieldset>
+
+      <hr />
+
+      <a href="{{ url_for('main.change_password')}}" class="flex p-2 gap-2">
+        <button class="btn btn-sm">
+          Change password<span class="material-symbols-outlined">
+            key_vertical
+          </span>
+        </button>
+      </a>
+
+      <fieldset class="fieldset p-4">
+        <p class="">Password</p>
+        <p class="text-sm border-1 p-2 w-100 rounded-sm">***************</p>
+      </fieldset>
+      <hr />
+      <fieldset class="fieldset p-4">
+        <p class="">Created at</p>
+        <p class="text-sm border-1 p-2 w-100 rounded-sm">
+          {% if current_user.created_at %} {{ current_user.created_at }} {% else
+          %} Not specified {% endif %}
+        </p>
+      </fieldset>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block title %}
+    <title>Login</title>
+    {% endblock %}
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="col-span-1">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      <div id="toast-container">
+        {% for category, message in messages %}
+        <div class="fixed toast-card alert alert-{{ category }}">
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endwith %} {% block content %} {% endblock %}
+    </div>
+
+    <div class="flex h-screen items-center justify-center">
+      <form
+        action="{{url_for('auth.login')}}"
+        method="POST"
+        class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
+      >
+        <h1 class="text-lg font-semibold">Login</h1>
+
+        <label class="label">Email</label>
+        <input
+          type="email"
+          class="input w-full"
+          placeholder="Email"
+          name="email"
+          required
+        />
+
+        <label class="label">Password</label>
+        <div class="relative w-full">
+          <input
+            id="password"
+            type="password"
+            class="input w-full pr-10"
+            placeholder="Password"
+            name="password"
+            required
+          />
+          <button
+            id="togglePassword"
+            type="button"
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500 hover:text-slate-700 cursor-pointer"
+          >
+            <!-- Added id="eyeIcon" here -->
+            <span id="eyeIcon" class="material-symbols-outlined"
+              >visibility</span
+            >
+          </button>
+        </div>
+
+        <a
+          class="flex justify-end font-semibold text-slate-600 mt-2"
+          href="{{ url_for('auth.forgot_password')}}"
+          >Forget password?</a
+        >
+
+        <button class="btn btn-success mt-4" type="submit">Login</button>
+
+        <a
+          class="flex justify-center font-semibold text-slate-600 mt-2"
+          href="{{ url_for('auth.register')}}"
+          >New user? Register here</a
+        >
+      </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/toastMessage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/passwordLogic.js') }}"></script>
+  </body>
+</html>

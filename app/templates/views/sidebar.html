@@ -1,0 +1,70 @@
+{% block sidebar %}
+
+<ul class="menu bg-base-200 min-h-full w-60 p-4 text-xs">
+  <!-- Sidebar content here -->
+
+  <li>
+    <a><span class="material-symbols-outlined"> home </span>Home</a>
+  </li>
+  <li>
+    <a href="{{ url_for('main.dashboard')}}"
+      ><span class="material-symbols-outlined"> dashboard </span>Dashboard</a
+    >
+  </li>
+
+  {% if current_user.has_permission('manage_role') %}
+  <li>
+    <a href="{{ url_for('main.manage_role')}}"
+      ><span class="material-symbols-outlined"> manage_accounts </span> Manage
+      Role
+    </a>
+  </li>
+  {% endif %}
+
+  <li class="mt-auto dropdown dropdown-top">
+    <div tabindex="0" role="button" class="m-1">
+      <span class="material-symbols-outlined"> settings </span>
+      Settings
+    </div>
+    <ul
+      tabindex="-1"
+      class="dropdown-content menu bg-base-200 rounded-box z-1 w-40 p-2 shadow-sm"
+    >
+      <li>
+        <a href="{{ url_for('main.profile') }}">
+          <div class="flex justify-end">
+            <img
+              src="{% if  current_user.img_url == None %}
+                {{ url_for('static', filename='image/profile.png' ) }}
+              {% else %}
+                {{ current_user.img_url}}
+              {% endif %}"
+              class="rounded-full h-8 w-8"
+              alt="profile"
+            />
+          </div>
+          Profile</a
+        >
+      </li>
+      <li>
+        <a href="{{ url_for('main.help')}}">
+          <span class="material-symbols-outlined"> help </span>Help</a
+        >
+      </li>
+      <li>
+        <a href="{{ url_for('main.contact')}}">
+          <span class="material-symbols-outlined"> call </span>Contact</a
+        >
+      </li>
+
+      <li>
+        <a href="{{ url_for('auth.logout') }}" class="text-red-500">
+          <span class="material-symbols-outlined"> logout </span>
+          Logout</a
+        >
+      </li>
+    </ul>
+  </li>
+</ul>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %} {% block title %}<title>Permission</title>{% endblock
+%} {% block content %}
+
+<div class="breadcrumbs text-xs pl-8">
+  <ul>
+    <li>
+      <a href="{{ url_for('main.manage_role')}}"
+        ><span class="material-symbols-outlined"> manage_accounts </span> Manage
+        Role
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('main.role_permission')}}"
+        ><span class="material-symbols-outlined"> add_diamond </span>
+        Add Role
+      </a>
+    </li>
+    <li>
+      <a
+        ><span class="material-symbols-outlined"> key_vertical </span>
+        Permission {{ role.name[0].upper() + role.name[1:] }}
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="flex flex-col md:flex-row">
+  <div class="flex m-4 fieldset border-base-300 rounded-box w-xs p-4">
+    <h1 class="text-lg font-semibold">
+      Assigning : {{ role.name[0].upper() + role.name[1:] }}
+    </h1>
+  </div>
+</div>
+
+<div class="flex flex-col md:flex-row">
+  <div
+    class="flex-2 m-4 bg-base-200 border-base-300 rounded-box w-xs border p-2"
+  >
+    <table class="table table-xs table-zebra">
+      <thead>
+        <tr>
+          <th>Assigned permissions</th>
+          <th></th>
+          <th><span class="material-symbols-outlined"> key_off </span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for role_perm in role_permissions %}
+
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ role_perm.name }}</td>
+          <td>
+            <form
+              method="POST"
+              action="{{ url_for('main.unassign_permission', role_id=role.id, perm_id=role_perm.id)}}"
+            >
+              <button class="btn btn-sm text-xs text-red-500 m-1">
+                Remove
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="flex m-4 bg-base-200 border-base-300 rounded-box w-xs border p-2">
+    <table class="table table-sm table-zebra">
+      <thead>
+        <tr>
+          <th>Unassigned permissions</th>
+          <th>
+            <span class="material-symbols-outlined"> key </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for perm in all_permissions %}
+
+        <tr>
+          <td>{{ perm.name}}</td>
+          <td>
+            <form
+              method="POST"
+              action="{{ url_for('main.assign_permission', role_id=role.id, perm_id=perm.id)}}"
+            >
+              <button class="btn btn-xs text-xs m-1">Assign</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

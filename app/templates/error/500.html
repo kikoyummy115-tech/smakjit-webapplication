@@ -1,0 +1,7 @@
+{% block title %}
+
+<title>Error 500</title>{% endblock %}
+<div class="flex h-screen items-center justify-center">
+  <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">Go Home</a>
+  <h1 class="text-lg font-semibold text-red-500">Internal Error 500</h1>
+</div>

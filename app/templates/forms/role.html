@@ -1,0 +1,88 @@
+{% extends 'base.html' %} {% block title %}<title>Role</title>{% endblock %} {%
+block content %}
+<div class="breadcrumbs text-xs pl-8">
+  <ul>
+    <li>
+      <a href="{{ url_for('main.manage_role')}}"
+        ><span class="material-symbols-outlined"> manage_accounts </span> Manage
+        Role
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('main.role_permission')}}"
+        ><span class="material-symbols-outlined"> add_diamond </span>
+        Add Role
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="flex flex-col justify-center md:flex-row">
+  <div class="flex col m-4">
+    <form
+      method="POST"
+      class="fieldset border-base-300 rounded-box w-xs p-4"
+      action="{{ url_for('main.role_permission')}}"
+    >
+      <h1 class="text-lg font-semibold">Create role</h1>
+      <p class="text-gray-800 font-sembol text-xs">
+        You add roles here of internal uses.
+      </p>
+      <label id="role_input" class="label">Role</label>
+      <input
+        id="role_input"
+        type="text"
+        class="input"
+        placeholder="Role"
+        name="role"
+        require
+      />
+      <button class="btn btn-outline mt-4" type="submit">Save</button>
+    </form>
+  </div>
+
+  <div
+    class="flex-2 m-4 bg-base-200 border-base-300 rounded-box w-xs border p-4"
+  >
+    <table class="table table-sm table-zebra">
+      <thead>
+        <tr>
+          <th></th>
+          <th>System Role</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for role in roles %}
+
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ role.name[0].upper() + role.name[1:] }}</td>
+          <td>
+            <a href="{{ url_for('main.manage_permission', role_id=role.id)}}">
+              <button class="btn btn-xs text-xs m-1">
+                <span class="material-symbols-outlined"> key_vertical </span
+                >Permission
+              </button></a
+            >
+
+            {% if role.name == "admin" %} {% else %}
+            <a href="{{ url_for('main.edit_role', role_id=role.id)}}">
+              <button class="btn btn-xs text-xs m-1 text-blue-500">
+                <span class="material-symbols-outlined"> edit </span>Edit
+              </button></a
+            >
+            <a href="{{ url_for('main.delete_role', role_id=role.id)}}">
+              <button class="btn btn-xs text-xs m-1 text-red-500">
+                <span class="material-symbols-outlined"> delete </span>Delete
+              </button></a
+            >
+
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

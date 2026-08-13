@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block title %}<title>
+  Edit - {{ current_user.username }}</title
+>{% endblock %} {% block content %}
+<div class="flex h-screen items-center justify-center bg-gray-200">
+  <form
+    action="{{ url_for('main.edit_profile') }}"
+    method="POST"
+    class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
+  >
+    <h1 class="text-lg font-semibold">Update Account</h1>
+
+    <label class="label">Username</label>
+    <input
+      type="text"
+      class="input"
+      placeholder="Username"
+      name="username"
+      value="{{ current_user.username }}"
+    />
+
+    <label class="label">Email</label>
+    <input
+      type="email"
+      class="input"
+      placeholder="Email"
+      name="email"
+      value="{{ current_user.email }}"
+    />
+
+    <label class="label">Gender</label>
+    <!-- prettier-ignore -->
+    <select class="select select-neutral" name="gender">
+      <option value="" {% if not current_user.gender %}selected{% endif %} disabled>Select gender</option>
+      <option value="Male" {% if current_user.gender == 'Male' %}selected{% endif %}>Male</option>
+      <option value="Female" {% if current_user.gender == 'Female' %}selected{% endif %}>Female</option>
+      <option value="Prefer not to say" {% if current_user.gender == 'Prefer not to say' %}selected{% endif %}>Prefer not to say</option>
+    </select>
+
+    <label class="label">Date of birth</label>
+    <input
+      type="date"
+      class="input"
+      name="date_of_birth"
+      value="{% if current_user.date_of_birth %}{% if current_user.date_of_birth.strftime %}{{ current_user.date_of_birth.strftime('%Y-%m-%d') }}{% else %}{{ current_user.date_of_birth }}{% endif %}{% endif %}"
+    />
+
+    <button class="btn btn-outline mt-4" type="submit">Save Changes</button>
+
+    <a
+      class="flex justify-center items-center gap-1 font-semibold text-slate-600 mt-2"
+      href="{{ url_for('main.profile') }}"
+    >
+      <span class="material-symbols-outlined text-sm">arrow_back_2</span>Back
+    </a>
+  </form>
+</div>
+{% endblock %}
