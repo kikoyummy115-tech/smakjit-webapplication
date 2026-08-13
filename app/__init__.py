@@ -39,7 +39,6 @@ def create_app():
             'manage_post',      
             'manage_report',    
             'manage_service',
-            'contact',
             'view_function',
             'view_analytic',
             'view_dashboard',
@@ -66,3 +65,4 @@ def create_app():
     app.register_blueprint(main)
     
     return app
+

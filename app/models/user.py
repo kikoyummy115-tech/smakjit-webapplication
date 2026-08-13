@@ -1,5 +1,8 @@
 import uuid
+
 from extension import db, login_manager
+from sqlalchemy import event
+from sqlalchemy.orm import joinedload
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
 from datetime import timezone, datetime
@@ -58,6 +61,8 @@ class User(UserMixin ,db.Model):
         time_difference = (current_time - self.last_seen.replace(tzinfo=timezone.utc)).total_seconds()
         return time_difference < 300  
 
+    def can(self, permission_name):
+        return any(p.name == permission_name for p in self.role.permissions)
     
     def __repr__(self):
         return f"<User {self.username}>"
@@ -71,6 +76,17 @@ class AnonymousUser(AnonymousUserMixin):
 
 
 login_manager.anonymous_user = AnonymousUser
+
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(str(user_id))
+    return User.query.options(
+        joinedload(User.role).joinedload(Role.permissions)
+    ).get(user_id)
+
+
+@event.listens_for(User, 'load')
+def receive_load(target, context):
+    if target.role_id is None:
+        default_role = Role.query.filter_by(name='user').first()
+        if default_role:
+            target.role_id = default_role.id

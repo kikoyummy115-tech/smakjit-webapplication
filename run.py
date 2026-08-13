@@ -40,6 +40,8 @@ def internal_server_error(e):
 
 
 
+# from werkzeug.middleware.profiler import ProfilerMiddleware
+# app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[30])
 
 if __name__ == "__main__":
     app.run(debug=True)
