@@ -54,7 +54,9 @@
               method="POST"
               action="{{ url_for('main.unassign_permission', role_id=role.id, perm_id=role_perm.id)}}"
             >
-              <button class="btn btn-sm text-xs text-red-500 m-1">
+              <button
+                class="btn btn-sm text-xs text-red-500 border-red-600 m-1"
+              >
                 Remove
               </button>
             </form>
@@ -68,7 +70,7 @@
     <table class="table table-sm table-zebra">
       <thead>
         <tr>
-          <th>Unassigned permissions</th>
+          <th>Permissions</th>
           <th>
             <span class="material-symbols-outlined"> key </span>
           </th>
@@ -84,7 +86,9 @@
               method="POST"
               action="{{ url_for('main.assign_permission', role_id=role.id, perm_id=perm.id)}}"
             >
-              <button class="btn btn-xs text-xs m-1">Assign</button>
+              <button class="btn btn-xs text-xs border-blue-500 m-1">
+                Assign
+              </button>
             </form>
           </td>
         </tr>

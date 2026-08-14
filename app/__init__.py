@@ -60,9 +60,10 @@ def create_app():
             db.session.commit()
             print("Successfully assigned 'manage_role' permission to the 'admin' role.")
 
-    from app.routes import auth, main
+    from app.routes import auth, main, event
     app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(main)
+    app.register_blueprint(event, url_prefix='/event')    
     
     return app
 

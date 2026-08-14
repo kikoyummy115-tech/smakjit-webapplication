@@ -11,8 +11,20 @@
       ><span class="material-symbols-outlined"> dashboard </span>Dashboard</a
     >
   </li>
+  <li>
+    <a href="{{ url_for('event.view_event')}}"
+      ><span class="material-symbols-outlined"> event </span>Events</a
+    >
+  </li>
 
-  {% if current_user.has_permission('manage_role') %}
+  {% if current_user.has_permission('manage_event') %}
+  <li>
+    <a href="{{ url_for('event.manage_event')}}">
+      <span class="material-symbols-outlined"> event_available </span>Manage
+      Event
+    </a>
+  </li>
+  {% endif %} {% if current_user.has_permission('manage_role') %}
   <li>
     <a href="{{ url_for('main.manage_role')}}"
       ><span class="material-symbols-outlined"> manage_accounts </span> Manage
@@ -20,7 +32,6 @@
     </a>
   </li>
   {% endif %}
-
   <li class="mt-auto dropdown dropdown-top">
     <div tabindex="0" role="button" class="m-1">
       <span class="material-symbols-outlined"> settings </span>

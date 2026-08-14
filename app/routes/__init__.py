@@ -1,4 +1,5 @@
 from .auth import auth
+from .event import event
 
 
 from .main import main

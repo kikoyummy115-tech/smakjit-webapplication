@@ -162,6 +162,8 @@ def unassign_permission(role_id, perm_id):
 
 
 @main.route('/manage-role/permission/assign-role/<user_id>', methods=['POST'])
+@login_required
+@permission_required(['manage_role'])
 def assign_role(user_id):
     user = User.query.get_or_404(user_id)
     selected_role_name = request.form.get('role')

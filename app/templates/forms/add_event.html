@@ -1,0 +1,100 @@
+{% extends 'base.html' %} {% block title %}<title>Event</title>{% endblock %} {%
+block content %}
+<div class="breadcrumbs text-xs pl-8">
+  <ul>
+    <li>
+      <a href="{{ url_for('event.manage_event')}}">
+        <span class="material-symbols-outlined"> manage_accounts </span> Manage
+        Event
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('event.create_event')}}"
+        ><span class="material-symbols-outlined"> add_diamond </span>
+        Create event
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="flex justify-center">
+  <div class="m-4">
+    <form method="POST" class="fieldset border-base-300 rounded-box w-sm p-4">
+      <h1 class="text-lg font-semibold">Create Event</h1>
+      <p class="text-gray-800 font-sembol text-xs">You can create events</p>
+
+      <div class="flex"></div>
+
+      <div></div>
+      <label id="title" class="label">Title</label>
+      <input
+        id="title"
+        type="text"
+        class="input"
+        placeholder="Title"
+        name="title"
+        require
+      />
+      <label id="description" class="label">Description</label>
+      <textarea id="description" class="textarea" name="description"></textarea>
+
+      <label id="file" class="label">Image</label>
+      <input
+        type="file"
+        class="file-input file-input-sm"
+        name="file"
+        accept="*/*"
+        required
+      />
+
+      <label id="date" class="label">Date</label>
+      <input id="date" class="input" type="date" name="date" require />
+
+      <label id="from_time" class="label">From : </label>
+      <input
+        id="from_time"
+        class="input"
+        type="datetime-local"
+        name="from_time"
+      />
+
+      <label id="to_time" class="label">To :</label>
+      <input id="to_time" class="input" type="datetime-local" name="to_time" />
+
+      <label class="label">Categories</label>
+      <div
+        class="flex flex-col gap-2 bg-base-200 p-3 rounded-box max-h-40 overflow-y-auto"
+      >
+        {% for category in categories %}
+        <label class="flex items-center gap-2 cursor-pointer text-xs">
+          <input
+            type="checkbox"
+            name="categories[]"
+            value="{{ category.id }}"
+            class="checkbox checkbox-xs checkbox-success"
+          />
+          <span>{{ category.name }}</span>
+        </label>
+        {% endfor %}
+      </div>
+
+      <label id="location" class="label">Location</label>
+      <div>
+        <select class="select select-neutral text-xs w-full" name="role">
+          <option disabled selected>Select location</option>
+          {% for location in locations %}
+          <!-- prettier-ignore -->
+          <option value="{{ location.name }}" {% if selected_location == location.name %}selected{% endif %}>
+            {{ location.name }}
+          </option>
+          {% endfor %}
+          <!-- prettier-ignore-end -->
+        </select>
+      </div>
+
+      <button class="btn btn-success text-white mt-4" type="submit">
+        Save
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -20,13 +20,17 @@ class User(UserMixin ,db.Model):
     
     role_id = db.Column(db.String(36), db.ForeignKey('roles.id'))
     img_url = db.Column(db.String(256), default=None)
-    
     gender = db.Column(db.String(20), nullable=True)
-    date_of_birth = db.Column(db.Date, nullable=True) 
-    
+    date_of_birth = db.Column(db.Date, nullable=True)     
     last_seen = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
-
+   
+    #== Interaction ==#    
+    authored_events = db.relationship('Event', backref='user')
     
+    volunteer_submissions = db.relationship('VolunteerRequest', backref='user', lazy=True)
+    vendor_bookings = db.relationship('BookVendor', backref='user', lazy=True)
+
+
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
@@ -34,7 +38,7 @@ class User(UserMixin ,db.Model):
         super(User, self).__init__(**kwargs)
         # Automatically assign the default 'user' role if none is specified
         if self.role_id is None:
-            default_role = Role.query.filter_by(name='user').first()
+            default_role = Role.query.filter_by(name='volunteer').first()
             if default_role:
                 self.role_id = default_role.id
 
@@ -87,6 +91,6 @@ def load_user(user_id):
 @event.listens_for(User, 'load')
 def receive_load(target, context):
     if target.role_id is None:
-        default_role = Role.query.filter_by(name='user').first()
+        default_role = Role.query.filter_by(name='volunteer').first()
         if default_role:
             target.role_id = default_role.id
